@@ -15,5 +15,5 @@ public interface DataService {
     public Person edit(Person item);
     public void delete(long id);
     public Person getById(long id);
-    public List<Person> getPersonList() throws IOException, ClassNotFoundException;
+    public List<Person> getPersonList();
 }

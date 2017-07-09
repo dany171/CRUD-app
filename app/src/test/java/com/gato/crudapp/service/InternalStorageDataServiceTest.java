@@ -27,8 +27,6 @@ public class InternalStorageDataServiceTest {
     private String newEmail = "juan.kanedo@gmail.com";
     private long newPhoneNumber = 59175966882l;
 
-
-
     @Before
     public void before(){
         this.dataService = new InternalStorageDataService();

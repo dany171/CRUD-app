@@ -7,15 +7,19 @@ import com.gato.crudapp.service.InternalStorageDataService;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by gato on 09-07-17.
  */
-public class ListPresenterTest {
+public class CRUDListPresenterTest {
 
-    ListPresenter listPresenter;
+    CRUDListPresenter cRUDListPresenter;
+    CRUDListView cRUDListView;
     DataService dataService;
+
 
     String p1Name     = "Matt Daemon";
     String p1Address  = "Route 66";
@@ -32,12 +36,12 @@ public class ListPresenterTest {
 
     @Before
     public void before(){
-        ListPresenter listPresenter = new ListPresenter();
-        DataService dataService = new InternalStorageDataService();
+        dataService = new InternalStorageDataService();
+        cRUDListPresenter = new CRUDListPresenter(cRUDListView, dataService);
     }
 
     @Test
-    public void loadPersons(){
+    public void LoadModelAndSetItToView(){
 
         Person p1 = new Person(p1Name,p1Address,p1Birthday,p1Email,p1phonenumber);
         Person p2 = new Person(p2Name,p2Address,p2Birthday,p2Email,p2phonenumber);
@@ -45,10 +49,9 @@ public class ListPresenterTest {
         dataService.save(p1);
         dataService.save(p2);
 
-        listPresenter.loadPersons();
-        int personsCount = listPresenter.personsCount();
-        assertEquals(personsCount, 2);
+        CRUDListModel listModel = cRUDListPresenter.getModel();
+        List<Person> personList = listModel.getPersonList();
+        assertEquals(personList.size(), 2);
 
     }
-
 }
