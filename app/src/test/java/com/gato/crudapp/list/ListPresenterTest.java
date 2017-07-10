@@ -6,10 +6,12 @@ import com.gato.crudapp.service.SimpleDataService;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
 
 /**
  * Created by gato on 09-07-17.
@@ -17,7 +19,8 @@ import static org.junit.Assert.assertEquals;
 public class ListPresenterTest {
 
     ListPresenter presenter;
-    IListView cRUDListView;
+    @Mock
+    IListView view;
     DataService dataService;
 
 
@@ -37,7 +40,8 @@ public class ListPresenterTest {
     @Before
     public void before(){
         dataService = new SimpleDataService();
-        presenter = new ListPresenter(cRUDListView);
+        view = mock(IListView.class);
+        presenter = new ListPresenter(view);
     }
 
     @Test
@@ -51,6 +55,5 @@ public class ListPresenterTest {
 
         List<Person> personList = presenter.getModel();
         assertEquals(personList.size(), 2);
-
     }
 }
