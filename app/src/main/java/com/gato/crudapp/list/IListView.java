@@ -8,9 +8,8 @@ import java.util.List;
  * Created by gato on 09-07-17.
  */
 
-public interface ICRUDListView {
-
-    public void setPersonList(List<Person> personList);
+public interface IListView {
     public void goEdit(Person person);
     public void goView(Person person);
+    public void setData(List<Person> personList);
 }

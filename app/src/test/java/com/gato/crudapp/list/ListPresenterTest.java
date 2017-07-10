@@ -14,10 +14,10 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by gato on 09-07-17.
  */
-public class CRUDListPresenterTest {
+public class ListPresenterTest {
 
-    CRUDListPresenter cRUDListPresenter;
-    ICRUDListView cRUDListView;
+    ListPresenter presenter;
+    IListView cRUDListView;
     DataService dataService;
 
 
@@ -37,7 +37,7 @@ public class CRUDListPresenterTest {
     @Before
     public void before(){
         dataService = new SimpleDataService();
-        cRUDListPresenter = new CRUDListPresenter(cRUDListView);
+        presenter = new ListPresenter(cRUDListView);
     }
 
     @Test
@@ -49,8 +49,7 @@ public class CRUDListPresenterTest {
         dataService.save(p1);
         dataService.save(p2);
 
-        CRUDListModel listModel = cRUDListPresenter.getModel();
-        List<Person> personList = listModel.getPersonList();
+        List<Person> personList = presenter.getModel();
         assertEquals(personList.size(), 2);
 
     }

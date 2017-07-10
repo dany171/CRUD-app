@@ -10,31 +10,27 @@ import java.util.List;
  * Created by gato on 09-07-17.
  */
 
-public class CRUDListPresenter implements ICRUDListPresenter {
+public class ListPresenter implements IListPresenter {
 
     private DataService dataService;
     private List<Person> personList;
-    private ICRUDListView view;
+    private IListView view;
 
-    public CRUDListPresenter(ICRUDListView cRUDListView){
-        this.view = cRUDListView;
-
+    public ListPresenter(IListView view){
+        this.view = view;
         this.dataService = new SimpleDataService();
         loadModel();
     }
 
-    private void loadModel(){
+    @Override
+    public void loadModel(){
         personList = dataService.getPersonList();
+        view.setData(personList);
     }
 
     @Override
     public List<Person>  getModel(){
         return personList;
-    }
-
-    @Override
-    public void save(Person person) {
-
     }
 
     @Override
@@ -51,11 +47,5 @@ public class CRUDListPresenter implements ICRUDListPresenter {
     public void delete(long id) {
         dataService.delete(id);
         loadModel();
-        getModel();
-    }
-
-    @Override
-    public int getPersonsCount() {
-        return 0;
     }
 }

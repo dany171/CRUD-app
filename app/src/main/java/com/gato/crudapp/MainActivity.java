@@ -8,26 +8,30 @@ import android.view.View;
 
 import com.gato.crudapp.form.PersonFormView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements IMainView{
+
+    private IMainPresenter presenter;
+    private String SAVE = "save";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        presenter = new MainPresenter(this);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.plus_person);
-        fab.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton fPlusButton = (FloatingActionButton) findViewById(R.id.plus_person);
+        fPlusButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                newPerson();
+                presenter.create();
             }
         });
     }
 
-    private void newPerson(){
+    @Override
+    public void goCreate() {
         Intent intent = new Intent(this, PersonFormView.class);
-        String message = "save";
-        intent.putExtra(message, "");
+        intent.putExtra(SAVE, SAVE);
         startActivity(intent);
     }
 }
