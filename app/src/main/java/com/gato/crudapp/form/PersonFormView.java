@@ -1,16 +1,24 @@
 package com.gato.crudapp.form;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 
 import com.gato.crudapp.R;
 import com.gato.crudapp.model.Person;
 
-public class PersonFormView extends AppCompatActivity implements IPersonFormView{
+
+import java.sql.Date;
+import java.util.Calendar;
+
+public class PersonFormView extends AppCompatActivity implements IPersonFormView, BirthdayPicker.OnDatePickedListener{
 
     private final String PERSON = "person";
     private final String EDITABLE = "editable";
@@ -83,6 +91,17 @@ public class PersonFormView extends AppCompatActivity implements IPersonFormView
     }
 
     private void setEvents(){
+
+        birthdayView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if(!b){
+                    return;
+                }
+                showTimePickerDialog(view);
+            }
+        });
+
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -110,5 +129,17 @@ public class PersonFormView extends AppCompatActivity implements IPersonFormView
                 }
             }
         });
+    }
+
+    public void showTimePickerDialog(View v) {
+        DialogFragment newFragment = new BirthdayPicker();
+        newFragment.show(getFragmentManager(), "birthdayPicker");
+    }
+
+
+    @Override
+    public void onDatePickerSelected(int year, int month, int day) {
+        birthdayView.setText(year+"/"+month+"/"+day);
+        birthdayView.invalidate();
     }
 }
