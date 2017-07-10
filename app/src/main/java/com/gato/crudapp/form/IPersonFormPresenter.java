@@ -8,4 +8,5 @@ import com.gato.crudapp.model.Person;
 
 public interface IPersonFormPresenter {
     public void save(Person person);
+    public void edit(Person person);
 }

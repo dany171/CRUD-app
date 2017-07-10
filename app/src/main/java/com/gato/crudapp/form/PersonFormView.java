@@ -1,5 +1,6 @@
 package com.gato.crudapp.form;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -19,6 +20,8 @@ public class PersonFormView extends AppCompatActivity implements IPersonFormView
     EditText phone;
     Button save;
     IPersonFormPresenter presenter;
+    Person person;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +38,22 @@ public class PersonFormView extends AppCompatActivity implements IPersonFormView
         email = (EditText) this.findViewById(R.id.editTextEmail);
         phone = (EditText) this.findViewById(R.id.editTextPhone);
         save = (Button) this.findViewById(R.id.save);
+
+        Intent intent = getIntent();
+        Object message = intent.getExtras().get("edit");
+
+        if(message!=null){
+            Person person = (Person) message;
+            this.person = person;
+            save.setText("Edit");
+            name.setText(person.getName());
+            address.setText(person.getAddress());
+            birthday.setText(person.getBirthday());
+            email.setText(person.getEmail());
+            phone.setText(Long.toString(person.getPhoneNumber()));
+
+        }
+
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -45,10 +64,29 @@ public class PersonFormView extends AppCompatActivity implements IPersonFormView
                 String semail = email.getText().toString();
                 String sphone = phone.getText().toString();
 
-                Person newPerson = new Person(sname,saddress,sbirthday,semail,Long.parseLong(sphone));
-                presenter.save(newPerson);
+                if(PersonFormView.this.person==null){
+
+                    Person newPerson = new Person(sname,saddress,sbirthday,semail,Long.parseLong(sphone));
+                    presenter.save(newPerson);
+                }else{
+                    PersonFormView.this.person.setName(sname);
+                    PersonFormView.this.person.setAddress(saddress);
+                    PersonFormView.this.person.setBirthday(sbirthday);
+                    PersonFormView.this.person.setEmail(semail);
+                    PersonFormView.this.person.setPhoneNumber(Long.parseLong(sphone));
+
+                    presenter.edit(PersonFormView.this.person);
+                }
+
+
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
     }
 
     @Override

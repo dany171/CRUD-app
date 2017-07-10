@@ -1,5 +1,6 @@
 package com.gato.crudapp.list;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v7.widget.PopupMenu;
@@ -11,6 +12,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.gato.crudapp.R;
+import com.gato.crudapp.form.PersonFormView;
 import com.gato.crudapp.model.Person;
 
 import java.util.ArrayList;
@@ -30,7 +32,7 @@ public class PopupListFragment extends ListFragment implements View.OnClickListe
         super.onActivityCreated(savedInstanceState);
 
         this.presenter = new CRUDListPresenter(this);
-        List<Person> personList = presenter.getModel().getPersonList();
+        List<Person> personList = presenter.getModel();
 
         // We want to allow modifications to the list so copy the dummy data array into an ArrayList
         ArrayList<Person> items = new ArrayList<Person>();
@@ -46,7 +48,7 @@ public class PopupListFragment extends ListFragment implements View.OnClickListe
     public void onResume() {
         super.onResume();
 
-        List<Person> personList = presenter.getModel().getPersonList();
+        List<Person> personList = presenter.getModel();
         System.out.println(personList.size());
         // We want to allow modifications to the list so copy the dummy data array into an ArrayList
         ArrayList<Person> items = new ArrayList<Person>();
@@ -59,10 +61,12 @@ public class PopupListFragment extends ListFragment implements View.OnClickListe
 
     @Override
     public void onListItemClick(ListView listView, View v, int position, long id) {
-        String item = (String) listView.getItemAtPosition(position);
+        Person item = (Person) listView.getItemAtPosition(position);
 
+        editPerson(item);
         // Show a toast if the user clicks on an item
-        Toast.makeText(getActivity(), "Item Clicked: " + item, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(), "Item Clicked: " + item, Toast.LENGTH_SHORT).show();
+
     }
 
     @Override
@@ -146,6 +150,11 @@ public class PopupListFragment extends ListFragment implements View.OnClickListe
         }
     }
 
+    private void editPerson(Person person){
+        Intent intent = new Intent(getContext(), PersonFormView.class);
+        String message = "edit";
+        intent.putExtra(message, person);
 
-
+        startActivity(intent);
+    }
 }

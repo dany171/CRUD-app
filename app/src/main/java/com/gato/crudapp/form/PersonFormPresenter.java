@@ -25,4 +25,10 @@ public class PersonFormPresenter implements IPersonFormPresenter {
         dataService.save(person);
         view.close();
     }
+
+    @Override
+    public void edit(Person person) {
+        dataService.edit(person);
+        view.close();
+    }
 }

@@ -26,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void newPerson(){
         Intent intent = new Intent(this, PersonFormView.class);
+        String message = "save";
+        intent.putExtra(message, "");
         startActivity(intent);
     }
 }
