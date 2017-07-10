@@ -82,12 +82,6 @@ public class CRUDFragmentListView extends Fragment implements ICRUDListView{
         return view;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
-
-    }
 
     @Override
     public void onAttach(Context context) {
