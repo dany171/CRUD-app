@@ -13,6 +13,7 @@ public interface ICRUDListPresenter {
     public List<Person> getModel();
     public void save(Person person);
     public void edit(Person person);
+    public void view(Person person);
     public void delete(long id);
     public int getPersonsCount();
 

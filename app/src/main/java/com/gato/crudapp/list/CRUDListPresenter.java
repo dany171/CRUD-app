@@ -38,8 +38,13 @@ public class CRUDListPresenter implements ICRUDListPresenter {
     }
 
     @Override
-    public void edit(Person person) {
+    public void view(Person person) {
+        view.goView(person);
+    }
 
+    @Override
+    public void edit(Person person) {
+        view.goEdit(person);
     }
 
     @Override

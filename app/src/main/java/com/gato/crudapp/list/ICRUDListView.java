@@ -11,5 +11,6 @@ import java.util.List;
 public interface ICRUDListView {
 
     public void setPersonList(List<Person> personList);
-
+    public void goEdit(Person person);
+    public void goView(Person person);
 }

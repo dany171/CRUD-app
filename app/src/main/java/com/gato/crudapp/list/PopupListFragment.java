@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.gato.crudapp.R;
 import com.gato.crudapp.form.PersonFormView;
@@ -61,12 +60,8 @@ public class PopupListFragment extends ListFragment implements View.OnClickListe
 
     @Override
     public void onListItemClick(ListView listView, View v, int position, long id) {
-        Person item = (Person) listView.getItemAtPosition(position);
-
-        editPerson(item);
-        // Show a toast if the user clicks on an item
-        //Toast.makeText(getActivity(), "Item Clicked: " + item, Toast.LENGTH_SHORT).show();
-
+        Person person = (Person) listView.getItemAtPosition(position);
+        presenter.view(person);
     }
 
     @Override
@@ -104,6 +99,9 @@ public class PopupListFragment extends ListFragment implements View.OnClickListe
                         // Remove the item from the adapter
                         presenter.delete(item.getId());
                         adapter.remove(item);
+                        return true;
+                    case R.id.menu_edit:
+                        presenter.edit(item);
                         return true;
                 }
                 return false;
@@ -150,11 +148,23 @@ public class PopupListFragment extends ListFragment implements View.OnClickListe
         }
     }
 
-    private void editPerson(Person person){
+    public void goEdit(Person person){
         Intent intent = new Intent(getContext(), PersonFormView.class);
-        String message = "edit";
+        String personKey = "person";
+        intent.putExtra(personKey, person);
+
+        String editable = "editable";
+        intent.putExtra(editable, true);
+        startActivity(intent);
+    }
+
+    public void goView(Person person){
+        Intent intent = new Intent(getContext(), PersonFormView.class);
+        String message = "person";
         intent.putExtra(message, person);
 
+        String editable = "editable";
+        intent.putExtra(editable, false);
         startActivity(intent);
     }
 }

@@ -40,18 +40,31 @@ public class PersonFormView extends AppCompatActivity implements IPersonFormView
         save = (Button) this.findViewById(R.id.save);
 
         Intent intent = getIntent();
-        Object message = intent.getExtras().get("edit");
+        Object personObj = intent.getExtras().get("person");
 
-        if(message!=null){
-            Person person = (Person) message;
+        if(personObj!=null){
+            Person person = (Person) personObj;
             this.person = person;
-            save.setText("Edit");
             name.setText(person.getName());
             address.setText(person.getAddress());
             birthday.setText(person.getBirthday());
             email.setText(person.getEmail());
             phone.setText(Long.toString(person.getPhoneNumber()));
+        }
 
+        Object editableObj = intent.getExtras().get("editable");
+        if(editableObj !=null){
+            boolean editable = (boolean)editableObj;
+            name.setEnabled(editable);
+            address.setEnabled(editable);
+            birthday.setEnabled(editable);
+            email.setEnabled(editable);
+            phone.setEnabled(editable);
+            save.setText("Edit");
+
+            int saveVisibility = editable? View.VISIBLE : View.INVISIBLE;
+
+            save.setVisibility(saveVisibility);
         }
 
         save.setOnClickListener(new View.OnClickListener() {
