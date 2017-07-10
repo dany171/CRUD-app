@@ -17,7 +17,7 @@ import static org.junit.Assert.assertEquals;
 public class CRUDListPresenterTest {
 
     CRUDListPresenter cRUDListPresenter;
-    CRUDListView cRUDListView;
+    ICRUDListView cRUDListView;
     DataService dataService;
 
 
@@ -37,7 +37,7 @@ public class CRUDListPresenterTest {
     @Before
     public void before(){
         dataService = new InternalStorageDataService();
-        cRUDListPresenter = new CRUDListPresenter(cRUDListView, dataService);
+        cRUDListPresenter = new CRUDListPresenter(cRUDListView);
     }
 
     @Test
