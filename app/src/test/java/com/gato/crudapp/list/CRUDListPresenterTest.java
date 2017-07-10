@@ -2,7 +2,7 @@ package com.gato.crudapp.list;
 
 import com.gato.crudapp.model.Person;
 import com.gato.crudapp.service.DataService;
-import com.gato.crudapp.service.InternalStorageDataService;
+import com.gato.crudapp.service.SimpleDataService;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -36,7 +36,7 @@ public class CRUDListPresenterTest {
 
     @Before
     public void before(){
-        dataService = new InternalStorageDataService();
+        dataService = new SimpleDataService();
         cRUDListPresenter = new CRUDListPresenter(cRUDListView);
     }
 

@@ -2,4 +2,7 @@
     <string name="app_name">CRUDApp</string>
     <string name="menu_remove">Remove</string>
     <string name="content_open_popup">Open Popup Menu</string>
+    <string name="new_person">New Person</string>
+    <string name="edit">Edit</string>
+    <string name="title_activity_person_form">PersonForm</string>
 </resources>

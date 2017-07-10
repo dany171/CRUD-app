@@ -76,4 +76,8 @@ public class Person implements Serializable{
     public void setPhoneNumber(long phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+
+    public String toString(){
+        return getName();
+    }
 }

@@ -16,11 +16,11 @@ import static android.provider.Contacts.SettingsColumns.KEY;
  * Created by gato on 09-07-17.
  */
 
-public class InternalStorageDataService implements DataService {
+public class SimpleDataService implements DataService {
 
     private String TAG = this.getClass().toString();
 
-    private List<Person> personList = new ArrayList<Person>();
+    private static List<Person> personList = new ArrayList<Person>();
 
     private long lastId = 0l;
 
@@ -30,7 +30,6 @@ public class InternalStorageDataService implements DataService {
         long lastId = getLastId();
         person.setId(lastId+1);
 
-        // Retrieve the list from internal storage
         List<Person> persons = getPersonList();
         persons.add(person);
 
@@ -70,7 +69,7 @@ public class InternalStorageDataService implements DataService {
 
     @Override
     public List<Person> getPersonList() {
-        return this.personList;
+        return personList;
     }
 
     private long getLastId() {

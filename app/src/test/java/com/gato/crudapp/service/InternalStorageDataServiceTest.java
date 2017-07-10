@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
  */
 public class InternalStorageDataServiceTest {
 
-    private InternalStorageDataService dataService;
+    private SimpleDataService dataService;
     private String name = "John Kennedy";
     private String address = "Fifth avenue #466";
     private String birthday = "21/01/2001";
@@ -29,7 +29,7 @@ public class InternalStorageDataServiceTest {
 
     @Before
     public void before(){
-        this.dataService = new InternalStorageDataService();
+        this.dataService = new SimpleDataService();
     }
 
     @Test

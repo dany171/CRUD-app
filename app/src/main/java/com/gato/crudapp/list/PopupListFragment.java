@@ -23,22 +23,37 @@ import java.util.List;
  */
 public class PopupListFragment extends ListFragment implements View.OnClickListener, ICRUDListView {
 
-    private ICRUDListPresenter cRUDListPresenter;
+    private ICRUDListPresenter presenter;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        this.cRUDListPresenter = new CRUDListPresenter(this);
-        List<Person> personList = cRUDListPresenter.getModel().getPersonList();
+        this.presenter = new CRUDListPresenter(this);
+        List<Person> personList = presenter.getModel().getPersonList();
 
         // We want to allow modifications to the list so copy the dummy data array into an ArrayList
-        ArrayList<String> items = new ArrayList<String>();
+        ArrayList<Person> items = new ArrayList<Person>();
         for (Person person : personList) {
-            items.add(person.getName());
+            items.add(person);
         }
 
         // Set the ListAdapter
+        setListAdapter(new PopupAdapter(items));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        List<Person> personList = presenter.getModel().getPersonList();
+        System.out.println(personList.size());
+        // We want to allow modifications to the list so copy the dummy data array into an ArrayList
+        ArrayList<Person> items = new ArrayList<Person>();
+        for (Person person : personList) {
+            items.add(person);
+        }
+
         setListAdapter(new PopupAdapter(items));
     }
 
@@ -68,7 +83,7 @@ public class PopupListFragment extends ListFragment implements View.OnClickListe
         final PopupAdapter adapter = (PopupAdapter) getListAdapter();
 
         // Retrieve the clicked item from view's tag
-        final String item = (String) view.getTag();
+        final Person item = (Person) view.getTag();
 
         // Create a PopupMenu, giving it the clicked view for an anchor
         PopupMenu popup = new PopupMenu(getActivity(), view);
@@ -83,6 +98,7 @@ public class PopupListFragment extends ListFragment implements View.OnClickListe
                 switch (menuItem.getItemId()) {
                     case R.id.menu_remove:
                         // Remove the item from the adapter
+                        presenter.delete(item.getId());
                         adapter.remove(item);
                         return true;
                 }
@@ -103,9 +119,9 @@ public class PopupListFragment extends ListFragment implements View.OnClickListe
     /**
      * A simple array adapter that creates a list of cheeses.
      */
-    class PopupAdapter extends ArrayAdapter<String> {
+    class PopupAdapter extends ArrayAdapter<Person> {
 
-        PopupAdapter(ArrayList<String> items) {
+        PopupAdapter(ArrayList<Person> items) {
             super(getActivity(), R.layout.list_item, android.R.id.text1, items);
         }
 
@@ -129,5 +145,7 @@ public class PopupListFragment extends ListFragment implements View.OnClickListe
             return view;
         }
     }
+
+
 
 }

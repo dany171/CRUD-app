@@ -2,7 +2,7 @@ package com.gato.crudapp.list;
 
 import com.gato.crudapp.model.Person;
 import com.gato.crudapp.service.DataService;
-import com.gato.crudapp.service.InternalStorageDataService;
+import com.gato.crudapp.service.SimpleDataService;
 
 import java.util.List;
 
@@ -34,19 +34,19 @@ public class CRUDListPresenter implements ICRUDListPresenter {
     public CRUDListPresenter(ICRUDListView cRUDListView){
         this.cRUDListView = cRUDListView;
 
-        this.dataService = new InternalStorageDataService();
+        this.dataService = new SimpleDataService();
         loadModel();
     }
 
     private void loadModel(){
         cRUDListModel = new CRUDListModel();
         List<Person> personList = dataService.getPersonList();
-        Person p1 = new Person(name,address,birthday,email,phoneNumber);
+        /*Person p1 = new Person(name,address,birthday,email,phoneNumber);
         p1.setId(1l);
         Person p2 = new Person(newName,newAddress,newBirthday,newEmail,newPhoneNumber);
         p2.setId(2l);
         personList.add(p1);
-        personList.add(p2);
+        personList.add(p2);*/
         cRUDListModel.setPersonList(personList);
     }
 
@@ -67,7 +67,9 @@ public class CRUDListPresenter implements ICRUDListPresenter {
 
     @Override
     public void delete(long id) {
-
+        dataService.delete(id);
+        loadModel();
+        getModel();
     }
 
     @Override
