@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.gato.crudapp.MainActivity">
+    tools:context="com.gato.crudapp.main.MainActivity">
 
     <fragment class="com.gato.crudapp.list.ListFragmentView"
         android:id="@+id/titles"

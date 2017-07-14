@@ -12,38 +12,43 @@ import android.widget.ListView;
 
 import com.gato.crudapp.R;
 import com.gato.crudapp.form.PersonFormView;
+import com.gato.crudapp.main.MainActivity;
 import com.gato.crudapp.model.Person;
-
-import java.util.ArrayList;
+import com.gato.crudapp.root.App;
 import java.util.List;
 
-public class ListFragmentView extends ListFragment implements View.OnClickListener, IListView {
+import javax.inject.Inject;
+
+public class ListFragmentView extends ListFragment implements View.OnClickListener, ListFragmentMVP.View{
 
     private final String PERSON = "person";
     private final String EDITABLE = "editable";
 
-    private IListPresenter presenter;
-    private List<Person> personList = new ArrayList<Person>();
+    @Inject
+    ListFragmentMVP.Presenter presenter;
+    ListFragmentMVP.Model model;
+
     private PopupAdapter adapter;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        this.presenter = new ListPresenter(this);
-        setListAdapter(new PopupAdapter(this.personList));
+
+        ((App)getContext()).getComponent().inject(((MainActivity) getContext()));
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        presenter.loadModel();
-        setListAdapter(new PopupAdapter(this.personList));
+        presenter.setView(this);
+        setListAdapter(new PopupAdapter(model.getList()));
     }
 
     @Override
     public void onListItemClick(ListView listView, View v, int position, long id) {
         Person person = (Person) listView.getItemAtPosition(position);
-        presenter.view(person);
+        presenter.showButtonClicked(person);
     }
 
     @Override
@@ -67,10 +72,10 @@ public class ListFragmentView extends ListFragment implements View.OnClickListen
             public boolean onMenuItemClick(MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.menu_remove:
-                        presenter.delete(item.getId());
+                        presenter.deleteButtonClicked(item);
                         return true;
                     case R.id.menu_edit:
-                        presenter.edit(item);
+                        presenter.editButtonClicked(item);
                         return true;
                 }
                 return false;
@@ -97,17 +102,8 @@ public class ListFragmentView extends ListFragment implements View.OnClickListen
         }
     }
 
-    public void goEdit(Person person){
-        Intent intent = new Intent(getContext(), PersonFormView.class);
-        String personKey = PERSON;
-        intent.putExtra(personKey, person);
-
-        String editable = EDITABLE;
-        intent.putExtra(editable, true);
-        startActivity(intent);
-    }
-
-    public void goView(Person person){
+    @Override
+    public void goToShowPersonDetails(Person person) {
         Intent intent = new Intent(getContext(), PersonFormView.class);
         String message = PERSON;
         intent.putExtra(message, person);
@@ -118,8 +114,13 @@ public class ListFragmentView extends ListFragment implements View.OnClickListen
     }
 
     @Override
-    public void setData(List<Person> personList) {
-        this.personList = personList;
-        setListAdapter(new PopupAdapter(this.personList));
+    public void goToEditPersonDetails(Person person) {
+        Intent intent = new Intent(getContext(), PersonFormView.class);
+        String personKey = PERSON;
+        intent.putExtra(personKey, person);
+
+        String editable = EDITABLE;
+        intent.putExtra(editable, true);
+        startActivity(intent);
     }
 }

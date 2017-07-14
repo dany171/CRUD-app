@@ -18,7 +18,7 @@ import static org.mockito.Mockito.mock;
  */
 public class ListPresenterTest {
 
-    ListPresenter presenter;
+    ListFragmentPresenter presenter;
     @Mock
     IListView view;
     DataService dataService;
@@ -41,7 +41,7 @@ public class ListPresenterTest {
     public void before(){
         dataService = new SimpleDataService();
         view = mock(IListView.class);
-        presenter = new ListPresenter(view);
+        presenter = new ListFragmentPresenter(view);
     }
 
     @Test
